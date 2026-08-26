@@ -1,4 +1,5 @@
 from coletor import buscar_acao
+from analise import analisar_acao
 
 resultados = {} #Biblioteca para armazenar os resultados das ações
 
@@ -19,3 +20,5 @@ for ativo, dados in resultados.items():
         melhor_ativo = ativo
 # Se o código encontrar um ativo com P/E menor que o melhor P/E atual, ele atualiza o melhor P/E e o melhor ativo.
 print(f'Melhor ativo: {melhor_ativo} com o P/E de {melhor_pe:.2f}')
+
+
