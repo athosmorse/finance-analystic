@@ -1,6 +1,6 @@
 import requests
 
-def buscar_acao(simbolo):
+def buscar_acao(simbolo): # 'Simbolo' é definido no main.py como 'ativo'
     response = requests.get(f"https://brapi.dev/api/quote/{simbolo}")   # Faz uma requisição GET para a API com o símbolo da ação
     dados = response.json() # Converte a resposta em formato JSON
     valor_acao = dados['results'][0]['regularMarketPrice']  # Obtém o preço de mercado regular da ação
