@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Análise de Ativos</title>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body>
+    <div class="container">
+        <header>
+            <h1>Dashboard de Análise de Ativos</h1>
+            <p>Calculando scores com base em P/E e Amplitude (52 semanas)</p>
+        </header>
+
+        <main>
+            <div id="loading" class="loading">Coletando dados da API brapi.dev...</div>
+            
+            <section class="best-asset-section" id="best-asset-section" style="display: none;">
+                <h2>🏆 Melhor Ativo</h2>
+                <div id="best-asset-card" class="card highlight">
+                    </div>
+            </section>
+
+            <section class="results-section">
+                <h2>Todos os Resultados</h2>
+                <div id="cards-container" class="grid">
+                    </div>
+            </section>
+        </main>
+    </div>
+
+    <script>
+        async function buscarEAnalisar() {
+            const ativos = ['PETR4', 'VALE3', 'ITUB4'];
+            let resultados = {};
+
+            try {
+                // 1. Fase de Coleta e Análise (Equivalente ao coletor.py e analise.py)
+                for (let ativo of ativos) {
+                    const response = await fetch(`https://brapi.dev/api/quote/${ativo}`);
+                    const dados = await response.json();
+                    const info = dados.results[0];
+
+                    const valor_acao = info.regularMarketPrice;
+                    const pe = info.priceEarnings || 0;
+                    const valor_2WH = info.fiftyTwoWeekHigh;
+                    const valor_2WL = info.fiftyTwoWeekLow;
+
+                    // Cálculo da Amplitude
+                    const amplitude = ((valor_2WH - valor_2WL) / valor_2WL) * 100;
+
+                    resultados[ativo] = {
+                        preco: valor_acao,
+                        pe: pe,
+                        amplitude: amplitude,
+                        score: 0
+                    };
+                }
+
+                // 2. Criando Rankings e Scores (Equivalente ao main.py)
+                let listaResultados = Object.entries(resultados).map(([ativo, dados]) => ({ ativo, ...dados }));
+
+                // Ranking P/E (Menor P/E ganha mais pontos)
+                listaResultados.sort((a, b) => a.pe - b.pe);
+                listaResultados.forEach((item, index) => {
+                    let pontos = listaResultados.length - index;
+                    resultados[item.ativo].score += pontos;
+                });
+
+                // Ranking Amplitude (Menor amplitude ganha mais pontos)
+                listaResultados.sort((a, b) => a.amplitude - b.amplitude);
+                listaResultados.forEach((item, index) => {
+                    let pontos = listaResultados.length - index;
+                    resultados[item.ativo].score += pontos;
+                });
+
+                // 3. Identificando o melhor ativo
+                let melhor_ativo = 'PETR4'; // Fallback inicial
+                let melhor_score = resultados['PETR4'].score;
+
+                for (let ativo in resultados) {
+                    if (resultados[ativo].score > melhor_score) {
+                        melhor_score = resultados[ativo].score;
+                        melhor_ativo = ativo;
+                    }
+                }
+
+                // 4. Renderizando no HTML
+                document.getElementById('loading').style.display = 'none';
+                document.getElementById('best-asset-section').style.display = 'block';
+
+                const container = document.getElementById('cards-container');
+                const bestContainer = document.getElementById('best-asset-card');
+
+                for (let ativo in resultados) {
+                    const dados = resultados[ativo];
+                    const cardHTML = `
+                        <h3>${ativo}</h3>
+                        <p><strong>Preço:</strong> R$ ${dados.preco.toFixed(2)}</p>
+                        <p><strong>P/E:</strong> ${dados.pe.toFixed(2)}</p>
+                        <p><strong>Amplitude:</strong> ${dados.amplitude.toFixed(2)}%</p>
+                        <div class="score-badge">Score: ${dados.score}</div>
+                    `;
+
+                    // Popula todos os cards
+                    const cardDiv = document.createElement('div');
+                    cardDiv.className = 'card';
+                    cardDiv.innerHTML = cardHTML;
+                    container.appendChild(cardDiv);
+
+                    // Popula o card do melhor ativo
+                    if (ativo === melhor_ativo) {
+                        bestContainer.innerHTML = cardHTML;
+                    }
+                }
+
+            } catch (error) {
+                document.getElementById('loading').innerText = "Erro ao buscar dados. Verifique a API ou sua conexão.";
+                console.error("Erro:", error);
+            }
+        }
+
+        // Inicia o processo ao carregar a página
+        buscarEAnalisar();
+    </script>
+</body>
+</html>
