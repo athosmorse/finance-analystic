@@ -43,7 +43,7 @@ for ativo, dados in resultados.items():
         melhor_score = dados['score']
         melhor_ativo = ativo
    
-print(f'Melhor ativo: {melhor_ativo} com o Socre de {melhor_score:.2f}')    
+print(f'Melhor ativo: {melhor_ativo} com o Socre de {melhor_score}')    
     
 print("=======================================================================================================================")
 print(resultados)
