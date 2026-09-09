@@ -1,13 +1,15 @@
 from coletor import buscar_acao
 from analise import analisar_acao
+from ativos import IBOVESPA
 
 resultados = {} #Biblioteca para armazenar os resultados das ações
 
-for ativo in ['PETR4', 'VALE3', 'ITUB4']:
+for ativo in IBOVESPA:
     valor_acao, pe, valor_2WH, valor_2WL = buscar_acao(ativo)
     amplitude = analisar_acao(valor_2WH, valor_2WL)
     resultados[ativo] = {'preco': valor_acao, 'pe': pe, 'amplitude': amplitude}
-print("Resultados finais:", resultados)
+    print(f"{ativo} - Preço: {valor_acao}, P/E: {pe}, Amplitude: {amplitude:.2f}%")
+# print("Resultados finais:", resultados)
 
 for ativo, dados in resultados.items():
     print(f"{ativo} - Amplitude: {dados['amplitude']:.2f}%")
@@ -22,7 +24,7 @@ for ativo in resultados:
 
 # Criando o Ranking P/E - soma dos pontos no score
 # A lógica aqui consiste em pegar o elemento da tupla, e retornar o valor para comparação ⬇
-ranking_pe = sorted(resultados.items(), key=lambda item: item[1]['pe'])
+ranking_pe = sorted(resultados.items(), key=lambda item: item[1]['pe'] if item[1]['pe'] is not None else float('inf'))
 for posicao, (ativo, dados) in enumerate(ranking_pe):
     # posicao vale 0, 1, 3... ativo vale 'PETR4', 'ITUB4'... e dados vale o dicionário interno
     pontos = len(ranking_pe) - posicao
@@ -46,5 +48,5 @@ for ativo, dados in resultados.items():
 print(f'Melhor ativo: {melhor_ativo} com o Socre de {melhor_score}')    
     
 print("=======================================================================================================================")
-print(resultados)
+# print(resultados)
     
