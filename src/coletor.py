@@ -1,7 +1,15 @@
 import requests
+import os
+from dotenv import load_dotenv
+
+load_dotenv()
+token = os.getenv('BRAPI_TOKEN')
+
 
 def buscar_acao(simbolo): # 'Simbolo' é definido no main.py como 'ativo'
-    response = requests.get(f"https://brapi.dev/api/quote/{simbolo}")   # Faz uma requisição GET para a API com o símbolo da ação
+    headers = {"Authorization": f"Bearer {token}"}
+    response = requests.get(f"https://brapi.dev/api/quote/{simbolo}", headers=headers)
+
     dados = response.json() # Converte a resposta em formato JSON
     valor_acao = dados['results'][0]['regularMarketPrice']  # Obtém o preço de mercado regular da ação
     pe = dados['results'][0]['priceEarnings']  # Obtém o P/E da ação
