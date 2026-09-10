@@ -8,11 +8,12 @@ for ativo in IBOVESPA:
     valor_acao, pe, valor_2WH, valor_2WL = buscar_acao(ativo)
     amplitude = analisar_acao(valor_2WH, valor_2WL)
     resultados[ativo] = {'preco': valor_acao, 'pe': pe, 'amplitude': amplitude}
-    print(f"{ativo} - Preço: {valor_acao}, P/E: {pe}, Amplitude: {amplitude:.2f}%")
+    amp_texto = f"{amplitude:.2f}%" if amplitude is not None else "Dados suspeitos/Indisponíveis"
+    print(f"{ativo} - Preço: {valor_acao}, P/E: {pe}, Amplitude: {amp_texto}")
 # print("Resultados finais:", resultados)
 
 for ativo, dados in resultados.items():
-    print(f"{ativo} - Amplitude: {dados['amplitude']:.2f}%")
+    print(f"{ativo} - Amplitude: {amp_texto}")
 
 # Neste momento irei pegar o segundo elemento da tupla que criei no FOR em cima
 # Estou extraindo o valor que o sorted vai me retornar, e vou comparar com o valor do P/E que denifi como melhor.
@@ -31,7 +32,7 @@ for posicao, (ativo, dados) in enumerate(ranking_pe):
     resultados[ativo]['score'] += pontos
 
 # Criando o Ranking Amplitude - soma dos pontos no score
-ranking_amplitude = sorted(resultados.items(), key=lambda item: item[1]['amplitude'])
+ranking_amplitude = sorted(resultados.items(), key=lambda item: item[1]['amplitude'] if item[1]['amplitude'] is not None else float('inf'))
 for posicao, (ativo, dados) in enumerate(ranking_amplitude):
     pontos = len(ranking_amplitude) - posicao
     resultados[ativo]['score'] += pontos
