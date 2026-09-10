@@ -6,6 +6,9 @@ resultados = {} #Biblioteca para armazenar os resultados das ações
 
 for ativo in IBOVESPA:
     valor_acao, pe, valor_2WH, valor_2WL = buscar_acao(ativo)
+    if valor_acao is None or pe is None or valor_2WH is None or valor_2WL is None:
+        print(f"Dados indisponíveis para {ativo}. Pulando para o próximo ativo.")
+        continue
     amplitude = analisar_acao(valor_2WH, valor_2WL)
     resultados[ativo] = {'preco': valor_acao, 'pe': pe, 'amplitude': amplitude}
     amp_texto = f"{amplitude:.2f}%" if amplitude is not None else "Dados suspeitos/Indisponíveis"
@@ -13,6 +16,7 @@ for ativo in IBOVESPA:
 # print("Resultados finais:", resultados)
 
 for ativo, dados in resultados.items():
+    amp_texto = f"{dados['amplitude']:.2f}%" if dados['amplitude'] is not None else "Dados suspeitos/Indisponíveis"
     print(f"{ativo} - Amplitude: {amp_texto}")
 
 # Neste momento irei pegar o segundo elemento da tupla que criei no FOR em cima
