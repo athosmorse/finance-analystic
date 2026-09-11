@@ -6,7 +6,7 @@ resultados = {} #Biblioteca para armazenar os resultados das ações
 
 for ativo in IBOVESPA:
     valor_acao, pe, valor_2WH, valor_2WL = buscar_acao(ativo)
-    if valor_acao is None or pe is None or valor_2WH is None or valor_2WL is None:
+    if valor_acao is None or valor_2WH is None or valor_2WL is None:
         print(f"Dados indisponíveis para {ativo}. Pulando para o próximo ativo.")
         continue
     amplitude = analisar_acao(valor_2WH, valor_2WL)
