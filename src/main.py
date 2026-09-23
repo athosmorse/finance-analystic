@@ -59,5 +59,16 @@ def gerar_ranking():
 
     return resultados
 
+def ordenar_ranking(resultados, campo, ordem):
+    if campo == 'score':
+        campo_ordenado = sorted(resultados.items(), key=lambda item: item[1]['score'], reverse=(ordem == 'desc'))
+    elif campo == 'pe':
+        campo_ordenado = sorted(resultados.items(), key=lambda item: item[1]['pe'] if item[1]['pe'] is not None else float('inf'), reverse=(ordem == 'desc'))
+    elif campo == 'amplitude':
+        campo_ordenado = sorted(resultados.items(), key=lambda item: item[1]['amplitude'] if item[1]['amplitude'] is not None else float('inf'), reverse=(ordem == 'desc'))
+    elif campo == None:
+        campo_ordenado = resultados.items()  # Retorna os resultados sem ordenação
+    return campo_ordenado
+
 if __name__ == '__main__':
     gerar_ranking()

@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="pt-br">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <title>Finance Analystic</title>
+</head>
+<body>
+    <div class="container">
+        <h1 class="my-4">Ranking de Ações</h1>
+        <h6>© 2026 Athos Morse. Todos os direitos reservados.
+        <p>Projeto pessoal de portfólio — uso e reprodução não autorizados.</p></h6>
+        
+        <a href="/ranking" id="botaoRanking" class="btn btn-primary" onclick="iniciarAnimacao()">Ver Ranking dos Ativos</a>
+
+        <script>
+            function iniciarAnimacao() {
+                let botao = document.getElementById('botaoRanking')
+                // Desabilitar o botão para evitar múltiplos cliques
+                botao.style.pointerEvents = 'none'
+
+                let pontos = 1;  // <- essa variável guarda a contagem, entre um "tique" e outro
+
+                setInterval(function() {
+                botao.innerText = "Carregando" + ".".repeat(pontos)
+                pontos = (pontos % 3) + 1; // Alterna entre 1, 2, 3.
+                }, 500);
+                
+            }
+        </script>
+    </div>
+</body>
+</html>
