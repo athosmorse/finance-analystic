@@ -16,8 +16,11 @@
 <body>
     <div class="container">
         <h1 class="my-4"><p style="font-family: 'Oswald';">Ranking de Ações</p></h1>
-        <h6>© 2026 Athos Morse. Todos os direitos reservados.
-        <p>Projeto pessoal de portfólio — uso e reprodução não autorizados.</p></h6>
+        <div class="d-flex justify-content-beetween justify-content-center my-4" style="gap: 30px; margin-bottom: 40px;">
+            <h6>© 2026 Athos Morse. Todos os direitos reservados.
+            <p>Projeto pessoal de portfólio — uso e reprodução não autorizados.</p></h6>
+            <button class="btn btn-primary" onclick="alternarTema()" class="btn btn-outline-secondary"><p style="text-align: left;">🌙 Modo Escuro</button>
+        </div>
         <br>
         <h2><p style="font-family: 'Oswald';">Proposta do Projeto:</p></h2>
         <p class="lead">O objetivo deste projeto é fornecer uma análise detalhada do mercado de ações, 
@@ -29,6 +32,12 @@
         <a href="/ranking" id="botaoRanking" class="btn btn-primary" onclick="iniciarAnimacao()">Ver Ranking dos Ativos</a>
 
         <script>
+
+        function alternarTema() {
+            document.documentElement.getAttribute('data-bs-theme') === 'light' 
+            ? document.documentElement.setAttribute('data-bs-theme', 'dark')
+            : document.documentElement.setAttribute('data-bs-theme', 'light');}
+
             function iniciarAnimacao() {
                 let botao = document.getElementById('botaoRanking')
                 // Desabilitar o botão para evitar múltiplos cliques

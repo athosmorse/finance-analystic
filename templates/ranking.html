@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -7,6 +7,7 @@
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
 
 <!-- ================================================================================================================= -->
 
@@ -14,21 +15,36 @@
 </head>
 <body>
     <div class="container">
-        <h1 class="my-4"><p style="font-family: 'Oswald';">Ranking de Ações</p></h1>
+        <h1 class="my-4"><p style="font-family: 'Oswald';"><p style="font-family: Oswald;"></p>Ranking de Ações</p></h1>
+        <button class="btn btn-primary" onclick="alternarTema()" class="btn btn-outline-secondary"><p style="text-align: right;">🌙 Modo Escuro</button>
         <a href="/ranking" class="btn btn-primary">Ver Ranking dos Ativos</a>
         <table class="table table-striped mt-4">
         <thead>
             <tr>
                 <th class="btn btn-outline-primary">Ativo</th>
-                <th><a href="/ranking?campo=score&ordem=desc" class="btn btn-outline-primary">Score</a></th>
-                <th><a href="/ranking?campo=preco&ordem=desc" class="btn btn-outline-primary">Preço</a></th>
-                <th><a href="/ranking?campo=pe&ordem=desc" class="btn btn-outline-primary">P/E</a></th>
-                <th><a href="/ranking?campo=amplitude&ordem=desc" class="btn btn-outline-primary">Amplitude</a></th>
+                <th><button onclick="ordenarPor('score')" class="btn btn-outline-primary"
+                    data-bs-toggle="tooltip"
+                    title="Score: Pontuação geral do ativo com base em múltiplos fatores financeiros. Quanto maior, melhor o desempenho do ativo."
+                    >Score</button></th>
+                <th><button onclick="ordenarPor('preco')" class="btn btn-outline-primary"
+                    data-bs-toggle="tooltip"
+                    title="Preço: Valor atual da ação no mercado."
+                    >Preço</button></th>
+                <th><button onclick="ordenarPor('pe')" class="btn btn-outline-primary"
+                    data-bs-toggle="tooltip" 
+                    title="P/E: Preço sobre Lucro. Quanto menor, mais 'barata' a ação em relação ao lucro que gera."
+                    >P/E</button></th>
+                <th><button onclick="ordenarPor('amplitude')" class="btn btn-outline-primary"
+                    data-bs-toggle="tooltip"
+                    title="Amplitude: Variação percentual da ação no período. Quanto maior, mais volátil a ação."
+                    >Amplitude</button></th>
             </tr>
         </thead>
-        <tbody></tbody>
+        <tbody id="corpoTabela">
+
         {% for ativo, dados in resultados %}
             <tr>
+
                 <td>{{ ativo }}</td>
                 <td>{{ dados['score'] }} pnts</td>
                 <td>R${{ "%.2f"|format(dados['preco']) }} BRL</td>
@@ -49,5 +65,46 @@
         </tbody>
         </table>
     </div>
+
+<script>
+
+    function alternarTema() {
+        document.documentElement.getAttribute('data-bs-theme') === 'light' 
+        ? document.documentElement.setAttribute('data-bs-theme', 'dark')
+        : document.documentElement.setAttribute('data-bs-theme', 'light');}
+
+    let tooltips = document.querySelectorAll('[data-bs-toggle="tooltip"]');
+    tooltips.forEach(function(el) {
+    new bootstrap.Tooltip(el);
+    });
+
+    let tbody = document.getElementById('corpoTabela'); // busca todos os elementos que batem com aquele "seletor"
+    let linhas = Array.from(tbody.querySelectorAll('tr')); // converte essa coleção numa lista 
+
+
+    function extrairNumero(texto) {
+    let limpo = texto.replace(/[^0-9.]/g, '');
+    return parseFloat(limpo);
+    }
+    
+    const colunas = { score: 1, preco: 2, pe: 3, amplitude: 4 }; // Mapeamento das colunas para facilitar a ordenação
+
+    function ordenarPor(campo){
+        let indice = colunas[campo]; // pega o índice da coluna com base no campo
+
+        linhas.sort(function(a, b){
+            let valorA = extrairNumero(a.querySelectorAll('td')[indice].innerText);
+            // pega o valor da celula da linha "a" na coluna "indice" e converte para inteiro
+            let valorB = extrairNumero(b.querySelectorAll('td')[indice].innerText);
+            // pega o valor da celula da linha "b" na coluna "indice" e converte para inteiro
+            return valorB - valorA; // descrescente
+        });
+
+        linhas.forEach(function(linha){
+            tbody.appendChild(linha); // recoloca cada linha na tabela
+        })
+    }
+
+</script>
 </body>
 </html>
