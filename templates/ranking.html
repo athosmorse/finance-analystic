@@ -25,7 +25,7 @@
             <tr>
                 <td>{{ ativo }}</td>
                 <td>{{ dados['score'] }} pnts</td>
-                <td>{{ dados['preco'] }}</td>
+                <td>R${{ "%.2f"|format(dados['preco']) }} BRL</td>
 
                 {% if dados['pe'] is not none %}
                 <td>{{ dados['pe']|round(2) }}</td>
