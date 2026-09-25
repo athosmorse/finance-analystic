@@ -16,5 +16,9 @@ def ranking():
     resultados_ordenados = ordenar_ranking(resultados, campo, ordem)
     return render_template('ranking.html', resultados=resultados_ordenados, campo=campo, ordem=ordem)
 
+@app.route('/explicacao-ranking')
+def explicacao_ranking():
+    return render_template('explicacao-ranking.html')
+
 if __name__ == '__main__':
     app.run(debug=True)
