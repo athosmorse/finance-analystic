@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="pt-br" data-bs-theme="light">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Importação da fonte Oswald do Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.3/dist/js/bootstrap.bundle.min.js"></script>
+
+    <!-- ================================================================================================================= -->
+                                                <!-- Styles -->
+
+<style>
+        body {
+            background-image: url('./static/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+</style>
+
+    <!-- ================================================================================================================= -->
+
+    <title>Finance Analystic</title>
+</head>
+
+<body>
+    <div class="container d-flex justify-content-between align-items-center my-4">
+        <h1 class="my-4"><p style="font-family: 'Oswald';">Explicação dos Campos</p></h1>
+        <button class="btn btn-primary" onclick="alternarTema()" class="btn btn-outline-secondary"><p style="text-align: right;">🌙 Modo Escuro</button>
+    </div>
+    <div class="container card border-0 mb-3 shadow-sm" style="background: rgba(225, 225, 225, 0.85); backdrop-filter: blur(10px); border-radius: 12px;">
+        <div class="card-header bg-transparent vorder-0 p-3 d-flex" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#explicacaoScore">
+            <div>
+                <h5 class="mb-1">⭐ Score</h5>
+                <p class="mb-0 text-mute small">A nota final calculada para ranquear o ativo.</p>
+            </div>
+            <span class="fs-5">▼</span>
+        </div>
+        <div id="explicacaoScore" class="collapse">
+            <div class="card-body pt-0">
+                <hr>
+                <p>
+                    O <strong>Score</strong> é a métrica principal do nosso algoritmo. Ele combina o indicador de 
+                    <strong>P/E</strong> com a <strong>Amplitude</strong> para encontrar empresas baratas e com menor volatilidade.
+                    <p class="mb-0"><strong>Regra:</strong> Quanto menor o Score, melhor posicionada a ação estará no ranking.</p>
+                    <h6 class="fw-bold mb-2">💡 Exemplo Prático (Análise com 3 Ativos):</h6>
+                    <div class="table-responsive">
+                        <table class="table table-striped mt-4">
+                            <thead>
+                                <tr>
+                                    <th>Ativo</th>
+                                    <th>Score</th>
+                                    <th>Preço</th>
+                                    <th>P/E</th>
+                                    <th>Amplitude</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr>
+                                    <td>PETR4</td>
+                                    <td>5 pnts</td>
+                                    <td>R$ 40.00BRL</td>
+                                    <td>6.0</td>
+                                    <td>15%</td>
+                                </tr>
+                                <tr>
+                                    <td>VALE3</td>
+                                    <td>4 pnts</td>
+                                    <td>R$ 25.00BRL</td>
+                                    <td>3.0</td>
+                                    <td>23%</td>
+                                </tr>
+                                <tr>
+                                    <td>ITUB4</td>
+                                    <td>3 pnts</td>
+                                    <td>R$ 15.00BRL</td>
+                                    <td>7.0</td>
+                                    <td>22%</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div>
+                </p>
+                <p>
+                    A metrica de <strong>Score</strong> é calculada da seguinte forma:
+                    <br>
+                    <code>Score = P/E + Amplitude</code>
+                    <br>
+                    Basicamente, <code>P/E</code> (explicação melhor no campo <code>P/E</code>)
+                    é usado para avaliar se a ação está barata ou cara, e a lógica aplicada por trás do Score é verificar quantas
+                    Capitais estão listadas no ranking (atualmente 45) e aplicar pontos para cada ativo baseado em sua posição no
+                    Ranking.<br>
+                    A mesma lógica é aplicada para a <strong>Amplitude</strong> (explicação melhor em: <code>Amplitude</code>), 
+                    que mede a volatilidade do ativo. Quanto menor a amplitude, melhor. Ele percorre o ranking e aplica pontos para cada
+                    ativo, tendo assim, no final, pontos separados do P/E e da amplitude.<br>
+                    No final, os pontos são somados, assim formando o <strong>Score</strong> final do ativo.<br>
+                    Como podemos ver no exemplo, o ativo <strong>ITUB4</strong> tem um P/E de 7.0, sendo o maior entre os três ativos, 
+                    ou seja, ele vai ganhar <strong>3 pontos</strong>, e a amplitude dele é de 22%, sendo a segunda maior, consequentemente, 
+                    ele vai ganhar <strong>2 pontos</strong>, somando um total de <strong>5 pontos</strong> no Score final.<br>
+                    Essa lógica se aplica para cada um dos ativos, nenhum ativo fica com 0 pontos, o minímo seria 2 pontos, um para cada 
+                    métrica de avaliação.
+                </p>
+            </div>
+        </div>
+        <div class="card-header bg-transparent vorder-0 p-3 d-flex" style="cursor: pointer;" data-bs-toggle="collapse" data-bs-target="#explicacaoPe">
+                <div>
+                    <h5 class="mb-1">💸 P/E </h5>
+                    <p class="mb-0 text-mute small">um indicador financeiro que relaciona o preço de uma ação com o lucro gerado pela empresa.</p>
+                </div>
+                <span class="fs-5">▼</span>
+            </div>
+            <div id="explicacaoPe" class="collapse">
+                <div class="card-body pt-0">
+                    <hr>
+                <p>
+                    O <strong>P/E</strong> constitui uma das métricas mais fundamentais da análise fundamentalista, servindo
+                    como o principal termômetro para mensurar as expectativas do mercado em relação ao valuation de uma companhia. 
+                    Estruturalmente, o indicador estabelece uma correlação direta entre a cotação atual de mercado de uma ação e o seu 
+                    lucro líquido por ação (LPA) acumulado, operando como um múltiplo que reflete quantos anos de lucros estáveis 
+                    seriam necessários para que o investidor reavesse o capital inicialmente alocado.
+                    <p class="mb-0"><strong>Lógica:</strong></p>
+                    <!-- Copiado de uma sintaxe do google, é bem útil -->
+                     <div class="d-inline-flex align-items-center fs-5">
+                        <span class="me-2">P/E =</span>
+                        <div class="d-inline-flex flex-column text-center">
+                            <span class="border-bottom border-2 pb-1 px-2">Preço da Ação</span>
+                            <span class="pt-1 px-2">Lucro por Ação (EPS)</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>  
+
+
+
+        <script>
+            function alternarTema() {
+            document.documentElement.getAttribute('data-bs-theme') === 'light' 
+            ? document.documentElement.setAttribute('data-bs-theme', 'dark')
+            : document.documentElement.setAttribute('data-bs-theme', 'light');}
+        </script>
+    </div>
+</body>
+</html>
