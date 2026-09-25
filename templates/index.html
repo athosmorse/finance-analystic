@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="pt-br">
+<html lang="pt-br" data-bs-theme="light">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -10,24 +10,39 @@
     <link href="https://fonts.googleapis.com/css2?family=Oswald:wght@400;700&display=swap" rel="stylesheet">
 
 <!-- ================================================================================================================= -->
+                                                <!-- Styles -->
+
+<style>
+        body {
+            background-image: url('./static/bg.png');
+            background-size: cover;
+            background-position: center;
+            background-repeat: no-repeat;
+            background-attachment: fixed;
+        }
+</style>
 
     <title>Finance Analystic</title>
 </head>
 <body>
     <div class="container">
         <h1 class="my-4"><p style="font-family: 'Oswald';">Ranking de Ações</p></h1>
-        <div class="d-flex justify-content-beetween justify-content-center my-4" style="gap: 30px; margin-bottom: 40px;">
+        <div class="d-flex justify-content-between my-4" style="gap: 30px; margin-bottom: 40px;">
             <h6>© 2026 Athos Morse. Todos os direitos reservados.
             <p>Projeto pessoal de portfólio — uso e reprodução não autorizados.</p></h6>
-            <button class="btn btn-primary" onclick="alternarTema()" class="btn btn-outline-secondary"><p style="text-align: left;">🌙 Modo Escuro</button>
+            <button class="btn btn-primary" onclick="alternarTema()" ><p style="text-align: left;">🌙 Modo Escuro</button>
         </div>
         <br>
+
+        <div class="p-4 rounded-4 shadow-sm bg-white bg-opacity-50 my4">
         <h2><p style="font-family: 'Oswald';">Proposta do Projeto:</p></h2>
-        <p class="lead">O objetivo deste projeto é fornecer uma análise detalhada do mercado de ações, 
+        <p class="mb-0">O objetivo deste projeto é fornecer uma análise detalhada do mercado de ações, 
             permitindo que os usuários visualizem o ranking dos ativos com base 
             em diferentes métricas financeiras. 
             Através de uma interface intuitiva e responsiva, os investidores podem 
             tomar decisões informadas sobre seus investimentos.</p>
+        </div>
+        <br><br>
         
         <a href="/ranking" id="botaoRanking" class="btn btn-primary" onclick="iniciarAnimacao()">Ver Ranking dos Ativos</a>
 
